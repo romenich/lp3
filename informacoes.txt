@@ -1,0 +1,14 @@
+tipo de banco:
+MySQL
+caminho:
+//127.0.0.1:3306
+ou
+//localhost:3306
+
+nome:
+dbinfox
+user:
+root
+senha:
+123456
+
