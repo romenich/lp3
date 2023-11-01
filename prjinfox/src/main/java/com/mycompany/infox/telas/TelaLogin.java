@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.infox.telas;
+
 import java.sql.*;
 import com.mycompany.infox.dal.ModuloConexao;
 
@@ -11,6 +12,7 @@ import com.mycompany.infox.dal.ModuloConexao;
  * @author FAETEC-PÁDUA
  */
 public class TelaLogin extends javax.swing.JFrame {
+
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
@@ -22,12 +24,13 @@ public class TelaLogin extends javax.swing.JFrame {
         initComponents();
         conexao = ModuloConexao.conector();
         // a linha abaixo serve de apoio ao status da conexao
-        //System.out.println(conexao);
-        if (conexao != null){
-        lblStatus.setIcon(new javax.swing.ImageIcon("icones/dbok.png"));
-        }else{
-        lblStatus.setIcon(new javax.swing.ImageIcon("/icones/dberror.png"));
+        System.out.println(conexao);
+        if (conexao != null) {
+            lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/dbok.png")));
+        } else {
+            lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/dberror.png")));
         }
+
     }
 
     /**
@@ -56,7 +59,7 @@ public class TelaLogin extends javax.swing.JFrame {
 
         btnLogin.setText("Login");
 
-        lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/prjinfox/icones/dberror.png"))); // NOI18N
+        lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/dbok.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -65,19 +68,20 @@ public class TelaLogin extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(64, 64, 64)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(lblStatus)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnLogin)
-                .addGap(42, 42, 42))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblStatus)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                        .addComponent(btnLogin)
+                        .addGap(42, 42, 42))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField1)
+                            .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
