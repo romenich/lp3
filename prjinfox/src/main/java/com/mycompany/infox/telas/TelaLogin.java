@@ -6,6 +6,7 @@ package com.mycompany.infox.telas;
 
 import java.sql.*;
 import com.mycompany.infox.dal.ModuloConexao;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,35 +18,43 @@ public class TelaLogin extends javax.swing.JFrame {
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
-    
-    public void logar(){
+
+    public void logar() {
         String sql = "SELECT * from tabusuarios where login=? and senha=?";
         try {
             /*as linhas abaixo preparam a consulta ao banco em função do que
             foi digitado nas caixas de texto. O ? é substituído pelo
             conteúdo das variáveis
-            */
+             */
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtUsuario.getText());
             String captura = new String(txtSenha.getPassword());
             pst.setString(2, captura);
             // a linha abaixo executa a query
-            rs=pst.executeQuery();
+            rs = pst.executeQuery();
             //se existir usuário e senha correspondente
-            if (rs.next()){
+            if (rs.next()) {
                 // a linha abaixo obtém o conteúdo do campo perfil da tabela tabusuarios
-                String perfil=rs.getString(6);
+                String perfil = rs.getString(6);
                 //System.out.println(perfil);
                 // a estrutura abaixo faz o tratamento do perfil do usuário
-                if (perfil.equals("admin")){
-                    
+                if (perfil.equals("admin")) {
+                    TelaPrincipal principal = new TelaPrincipal();
+                    principal.setVisible(true);
+                    TelaPrincipal.menRelatorio.setEnabled(true);
+                    TelaPrincipal.menCadastroUser.setEnabled(true);
+                    TelaPrincipal.lblUsuario.setText(rs.getString(2));
+                    TelaPrincipal.lblUsuario.setForeground(Color.red);
+                    this.dispose();
+
+                }else {
+                    TelaPrincipal principal = new TelaPrincipal();
+                    principal.setVisible(true);
+                    TelaPrincipal.lblUsuario.setText(rs.getString(2));
+                    this.dispose();
                 }
-                //a linha abaixo exibe o conteúdo do campo da tabela
-               TelaPrincipal principal = new TelaPrincipal();
-               principal.setVisible(true);
-               this.dispose();
-               conexao.close();
-            }else{
+
+            } else {
                 JOptionPane.showMessageDialog(null, "Usuário e/ou senha inválido(s)");
             }
         } catch (Exception e) {
