@@ -87,6 +87,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menCadastroUser.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menCadastroUser.setText("Usuários");
         menCadastroUser.setEnabled(false);
+        menCadastroUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menCadastroUserActionPerformed(evt);
+            }
+        });
         menCad.add(menCadastroUser);
 
         Menu.add(menCad);
@@ -172,13 +177,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Date data = new Date();
         DateFormat formatador = DateFormat.getDateInstance(DateFormat.SHORT);
         lblData.setText(formatador.format(data));
-        
+
     }//GEN-LAST:event_formWindowActivated
 
     private void menOpcoesSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menOpcoesSairActionPerformed
         // exibe uma caixa de diálogo
-        int sair = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja sair?", "Atenção",JOptionPane.YES_NO_OPTION);
-        if (sair == JOptionPane.YES_OPTION){
+        int sair = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja sair?", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (sair == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }//GEN-LAST:event_menOpcoesSairActionPerformed
@@ -188,6 +193,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         TelaSobre sobre = new TelaSobre();
         sobre.setVisible(true);
     }//GEN-LAST:event_menAjudaSobreActionPerformed
+
+    private void menCadastroUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCadastroUserActionPerformed
+        // As linhas abaixo iram abrir o form TelaUsuario dentro do desktop pane
+        TelaUsuario usuario = new TelaUsuario();
+        usuario.setVisible(true);
+        desktopTela.add(usuario);
+
+    }//GEN-LAST:event_menCadastroUserActionPerformed
 
     /**
      * @param args the command line arguments
