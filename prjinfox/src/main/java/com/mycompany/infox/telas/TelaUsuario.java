@@ -4,17 +4,58 @@
  */
 package com.mycompany.infox.telas;
 
+import java.sql.*;
+import com.mycompany.infox.dal.ModuloConexao;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author reydemonio
  */
 public class TelaUsuario extends javax.swing.JInternalFrame {
 
+    Connection conexao = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+
     /**
      * Creates new form TelaUsuario
      */
     public TelaUsuario() {
         initComponents();
+        conexao = ModuloConexao.conector();
+    }
+
+    private void limparDados() {
+        txtNomeUsuario.setText(null);
+        txtFoneUsuario.setText(null);
+        txtLoginUsuario.setText(null);
+        txtSenhaUsuario.setText(null);
+        cboPerfilUsuario.setSelectedItem(null);
+    }
+
+    private void consultar() {
+        String sql = "select * from tabusuarios where iduser=? ";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtIdUsuario.getText());
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                txtNomeUsuario.setText(rs.getString(2));
+                txtFoneUsuario.setText(rs.getString(3));
+                txtLoginUsuario.setText(rs.getString(4));
+                txtSenhaUsuario.setText(rs.getString(5));
+                // a linha abaixo se refere ao combobox
+                cboPerfilUsuario.setSelectedItem(rs.getString(6));
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuário não cadastrado.");
+               // a linha abaixo chama o método para limpar os dados dos campos
+               limparDados();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 
     /**
@@ -72,6 +113,11 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         btnReadUser.setToolTipText("Consultar ");
         btnReadUser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnReadUser.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnReadUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReadUserActionPerformed(evt);
+            }
+        });
 
         btnUpdateUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/updateIcone.png"))); // NOI18N
         btnUpdateUser.setToolTipText("Alterar");
@@ -101,24 +147,21 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
                             .addComponent(txtLoginUsuario)
                             .addComponent(cboPerfilUsuario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(nomeUsuario)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(47, 47, 47)
-                                .addComponent(txtSenhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addComponent(foneUsuario)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtFoneUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(idUsuario)
-                                .addGap(29, 29, 29)
-                                .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(nomeUsuario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addComponent(txtSenhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(foneUsuario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtFoneUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(idUsuario)
+                        .addGap(29, 29, 29)
+                        .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(89, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(101, 101, 101)
@@ -173,6 +216,11 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
 
         setBounds(0, 0, 800, 486);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnReadUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReadUserActionPerformed
+        // chamando o método consultar
+        consultar();
+    }//GEN-LAST:event_btnReadUserActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
