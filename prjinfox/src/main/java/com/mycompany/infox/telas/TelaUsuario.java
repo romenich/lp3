@@ -31,9 +31,10 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         txtFoneUsuario.setText(null);
         txtLoginUsuario.setText(null);
         txtSenhaUsuario.setText(null);
-        cboPerfilUsuario.setSelectedItem(null);
+        
     }
 
+    //método para consultar usuários
     private void consultar() {
         String sql = "select * from tabusuarios where iduser=? ";
         try {
@@ -50,8 +51,44 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
 
             } else {
                 JOptionPane.showMessageDialog(null, "Usuário não cadastrado.");
-               // a linha abaixo chama o método para limpar os dados dos campos
-               limparDados();
+                // a linha abaixo chama o método para limpar os dados dos campos
+                limparDados();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    //método para adicionar usuários
+    private void adicionar() {
+        String sql = "insert into tabusuarios (iduser, usuario, telefone, login, senha, perfil) values (?, ?, ?, ?, ?, ?)";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtIdUsuario.getText());
+            pst.setString(2, txtNomeUsuario.getText());
+            pst.setString(3, txtFoneUsuario.getText());
+            pst.setString(4, txtLoginUsuario.getText());
+            pst.setString(5, txtSenhaUsuario.getText());
+            // síntese para o combo box
+            pst.setString(6, cboPerfilUsuario.getSelectedItem().toString());
+
+            //validação dos campos obrigatórios
+            if ((txtIdUsuario.getText().isEmpty()) || (txtNomeUsuario.getText().isEmpty()) || (txtLoginUsuario.getText().isEmpty()) || (txtSenhaUsuario.getText().isEmpty())) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios!");
+
+            } else {
+
+                // a estrutura abaixo é usado para confirmar a inserção dos dados na tabela
+                // e atualizar a tabela de usuários com os dados dos formulários
+                int adicionado = pst.executeUpdate();
+                // a linha abaixo serve de apoio ao entendimento da lógica
+                //System.out.println(adicionado);
+                if (adicionado > 0) {
+                    JOptionPane.showMessageDialog(null, "Usuário adicionado com sucesso.");
+                    limparDados();
+                    txtIdUsuario.setText(null);
+                }
+
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -83,6 +120,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         btnReadUser = new javax.swing.JButton();
         btnUpdateUser = new javax.swing.JButton();
         btnDeleteUser = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -90,15 +128,15 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         setTitle("Usuários");
         setVisible(true);
 
-        idUsuario.setText("Id:");
+        idUsuario.setText("Id*:");
 
-        nomeUsuario.setText("Nome:");
+        nomeUsuario.setText("Nome*:");
 
-        loginUsuario.setText("Login:");
+        loginUsuario.setText("Login*:");
 
-        senhaUsuario.setText("Senha:");
+        senhaUsuario.setText("Senha*:");
 
-        jLabel5.setText("Perfil:");
+        jLabel5.setText("Perfil*:");
 
         cboPerfilUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "user" }));
 
@@ -108,6 +146,11 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         bntCreateUser.setToolTipText("Adicionar ");
         bntCreateUser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bntCreateUser.setPreferredSize(new java.awt.Dimension(80, 80));
+        bntCreateUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntCreateUserActionPerformed(evt);
+            }
+        });
 
         btnReadUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/readIcone.png"))); // NOI18N
         btnReadUser.setToolTipText("Consultar ");
@@ -129,6 +172,8 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         btnDeleteUser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDeleteUser.setPreferredSize(new java.awt.Dimension(80, 80));
 
+        jLabel1.setText("* Campos obrigatórios");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -145,24 +190,29 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtLoginUsuario)
-                            .addComponent(cboPerfilUsuario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(nomeUsuario)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(txtSenhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(foneUsuario)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtFoneUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cboPerfilUsuario, 0, 68, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(idUsuario)
                         .addGap(29, 29, 29)
-                        .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(89, Short.MAX_VALUE))
+                        .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(nomeUsuario)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(47, 47, 47)
+                                .addComponent(txtSenhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addComponent(foneUsuario)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtFoneUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap(83, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(101, 101, 101)
                 .addComponent(bntCreateUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -183,7 +233,8 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(idUsuario)
-                    .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nomeUsuario)
@@ -222,6 +273,11 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         consultar();
     }//GEN-LAST:event_btnReadUserActionPerformed
 
+    private void bntCreateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntCreateUserActionPerformed
+        // chamando o método adicionar
+        adicionar();
+    }//GEN-LAST:event_bntCreateUserActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntCreateUser;
@@ -231,6 +287,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cboPerfilUsuario;
     private javax.swing.JLabel foneUsuario;
     private javax.swing.JLabel idUsuario;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel loginUsuario;
     private javax.swing.JLabel nomeUsuario;
