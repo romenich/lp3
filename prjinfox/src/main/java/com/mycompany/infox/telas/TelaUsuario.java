@@ -129,6 +129,26 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
+    //método responsável pela remoção de usuários
+    private void remover(){
+       //a estrutura abaixo confirma a remoção do usuário
+       int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remove este usuário?", "Atenção", JOptionPane.YES_NO_OPTION);
+       if (confirma==JOptionPane.YES_OPTION){
+           String sql= "delete from tabusuarios where iduser=?";
+           try {
+               pst=conexao.prepareStatement(sql);
+               pst.setString(1,txtIdUsuario.getText());
+               int apagado=pst.executeUpdate();
+               if (apagado>0){
+                   JOptionPane.showMessageDialog(null,"Usuário removido com sucesso!");
+                   limparDados();
+                   txtIdUsuario.setText(null);
+               }
+           } catch (Exception e) {
+               JOptionPane.showMessageDialog(null, e);
+           }
+       }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -211,6 +231,11 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         btnDeleteUser.setToolTipText("Remover");
         btnDeleteUser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDeleteUser.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnDeleteUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteUserActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("* Campos obrigatórios");
 
@@ -322,6 +347,11 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         // chamando o método alterar
         alterar();
     }//GEN-LAST:event_btnUpdateUserActionPerformed
+
+    private void btnDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUserActionPerformed
+        // chamando o método remover
+        remover();
+    }//GEN-LAST:event_btnDeleteUserActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
