@@ -31,7 +31,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         txtFoneUsuario.setText(null);
         txtLoginUsuario.setText(null);
         txtSenhaUsuario.setText(null);
-        
+
     }
 
     //método para consultar usuários
@@ -85,6 +85,41 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
                 //System.out.println(adicionado);
                 if (adicionado > 0) {
                     JOptionPane.showMessageDialog(null, "Usuário adicionado com sucesso.");
+                    limparDados();
+                    txtIdUsuario.setText(null);
+                }
+
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    //criado o método para alterar dados do usuário
+    private void alterar() {
+        String sql = "update tabusuarios set usuario=?, telefone=?, login=?, senha=?, perfil=? where iduser=?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtNomeUsuario.getText());
+            pst.setString(2, txtFoneUsuario.getText());
+            pst.setString(3, txtLoginUsuario.getText());
+            pst.setString(4, txtSenhaUsuario.getText());
+            // síntese para o combo box
+            pst.setString(5, cboPerfilUsuario.getSelectedItem().toString());
+            pst.setString(6, txtIdUsuario.getText());
+            //validação dos campos obrigatórios
+            if ((txtIdUsuario.getText().isEmpty()) || (txtNomeUsuario.getText().isEmpty()) || (txtLoginUsuario.getText().isEmpty()) || (txtSenhaUsuario.getText().isEmpty())) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios!");
+
+            } else {
+
+                // a estrutura abaixo é usado para confirmar a alteração dos dados na tabela
+                // e atualizar a tabela de usuários com os dados dos formulários
+                int adicionado = pst.executeUpdate();
+                // a linha abaixo serve de apoio ao entendimento da lógica
+                //System.out.println(adicionado);
+                if (adicionado > 0) {
+                    JOptionPane.showMessageDialog(null, "Dados do usuário alterado com sucesso.");
                     limparDados();
                     txtIdUsuario.setText(null);
                 }
@@ -166,6 +201,11 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         btnUpdateUser.setToolTipText("Alterar");
         btnUpdateUser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnUpdateUser.setMinimumSize(new java.awt.Dimension(80, 80));
+        btnUpdateUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateUserActionPerformed(evt);
+            }
+        });
 
         btnDeleteUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/deleteIcone.png"))); // NOI18N
         btnDeleteUser.setToolTipText("Remover");
@@ -277,6 +317,11 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         // chamando o método adicionar
         adicionar();
     }//GEN-LAST:event_bntCreateUserActionPerformed
+
+    private void btnUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateUserActionPerformed
+        // chamando o método alterar
+        alterar();
+    }//GEN-LAST:event_btnUpdateUserActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
