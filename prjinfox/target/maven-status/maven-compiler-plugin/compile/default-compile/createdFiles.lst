@@ -9,6 +9,7 @@ com\mycompany\infox\dal\ModuloConexao.class
 com\mycompany\infox\telas\TelaLogin$1.class
 com\mycompany\infox\telas\TelaPrincipal$2.class
 com\mycompany\infox\telas\TelaUsuario.class
+com\mycompany\infox\telas\TelaCliente$4.class
 com\mycompany\infox\telas\TelaCliente$1.class
 com\mycompany\infox\telas\TelaPrincipal$5.class
 com\mycompany\infox\telas\TelaLogin.class
