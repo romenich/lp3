@@ -71,7 +71,7 @@ public class TelaCliente extends javax.swing.JFrame {
 
     //criando o método para pesquisar clientes pelo nome com filtro
     private void pesquisarCliente() {
-        String sql = "select * from tabclientes where nomecliente like ?";
+        String sql = "select idcliente as id, nomecliente as nome, enderecocliente as endereco, telefonecliente as telefone, emailcliente as email from tabclientes where nomecliente like ?";
         try {
             pst = conexao.prepareStatement(sql);
             // passando o nome da caixa de pesquisa para o "?"
@@ -227,17 +227,24 @@ public class TelaCliente extends javax.swing.JFrame {
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/pesquisar2.png"))); // NOI18N
 
+        tblClientes = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex ){
+                return false;
+            }
+        };
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id", "Nome", "Endereço", "Telefone", "Email"
             }
         ));
+        tblClientes.setFocusable(false);
+        tblClientes.getTableHeader().setReorderingAllowed(false);
         tblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblClientesMouseClicked(evt);
