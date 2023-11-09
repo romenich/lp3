@@ -94,6 +94,9 @@ public class TelaCliente extends javax.swing.JFrame {
         txtEnderecoCliente.setText(tblClientes.getModel().getValueAt(setar, 2).toString());
         txtFoneCliente.setText(tblClientes.getModel().getValueAt(setar, 3).toString());
         txtMailCliente.setText(tblClientes.getModel().getValueAt(setar, 4).toString());
+
+        // a linha abaixo desabilitar o botão adicionar
+        btnAdicionar.setEnabled(false);
     }
 
     //criado o método para alterar dados do usuário
@@ -120,12 +123,34 @@ public class TelaCliente extends javax.swing.JFrame {
                 if (adicionado > 0) {
                     JOptionPane.showMessageDialog(null, "Dados do cliente alterados com sucesso.");
                     limparDados();
-                    
+                    btnAdicionar.setEnabled(true);
+
                 }
 
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    private void remover() {
+        //a estrutura abaixo confirma a remoção do cliente
+        int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este cliente?", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION) {
+            String sql = "delete from tabclientes where idcliente=?";
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtIdCliente.getText());
+                int apagado = pst.executeUpdate();
+                if (apagado > 0) {
+                    JOptionPane.showMessageDialog(null, "Cliente removido com sucesso!");
+                    limparDados();
+                    txtIdCliente.setText(null);
+                    btnAdicionar.setEnabled(true);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
         }
     }
 
@@ -188,6 +213,11 @@ public class TelaCliente extends javax.swing.JFrame {
 
         btnRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/deleteIcone.png"))); // NOI18N
         btnRemover.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverActionPerformed(evt);
+            }
+        });
 
         txtPesquisarCliente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -337,6 +367,11 @@ public class TelaCliente extends javax.swing.JFrame {
         // chamando o método alterar
         alterar();
     }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+        // chamando o método para remover clientes
+        remover();
+    }//GEN-LAST:event_btnRemoverActionPerformed
 
     /**
      * @param args the command line arguments
