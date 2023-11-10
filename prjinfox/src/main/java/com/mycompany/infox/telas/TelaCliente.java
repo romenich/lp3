@@ -188,6 +188,9 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
+        setMaximizable(true);
+        setTitle("Clientes");
+        setToolTipText("");
 
         labelqualquer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/pesquisar2.png"))); // NOI18N
 
@@ -341,7 +344,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                     .addComponent(txtFoneCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(txtMailCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -352,7 +355,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        pack();
+        setBounds(0, 0, 800, 501);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
