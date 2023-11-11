@@ -88,6 +88,49 @@ public class TelaOs extends javax.swing.JInternalFrame {
         }
     }
 
+    // método para pesquisar uma ordem de serviço
+    private void pesquisarOs() {
+        // a linha abaixo cria uma caixa de entrada do tipo JOpiton pane
+        String numOs = JOptionPane.showInputDialog("Número da Ordem de Serviço: ");
+        String sql = "select * from tabos where os = " + numOs;
+        try {
+            pst = conexao.prepareStatement(sql);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                txtOS.setText(rs.getString(1));
+                txtData.setText(rs.getString(2));
+                //setando os radio buttons
+                String rbtTipo = rs.getString(3);
+                if (rbtTipo.equals("OS")) {
+                    rbtOS.setSelected(true);
+                    tipo = "OS";
+                } else {
+                    rbtOrcamento.setSelected(true);
+                    tipo = "Orçamento";
+                }
+                cboOsSituacao.setSelectedItem(rs.getString(4));
+                txtEquipamentoOS.setText(rs.getString(5));
+                txtDefeitoOS.setText(rs.getString(6));
+                txtServicoOs.setText(rs.getString(7));
+                txtTecnicoOs.setText(rs.getString(8));
+                txtValorOs.setText(rs.getString(9));
+                txtIdCliente.setText(rs.getString(10));
+                //evitando problemas
+                btnAdicionarOs.setEnabled(false);
+                txtPesquisarCliente.setEnabled(false);
+                tblClientes.setVisible(false);
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Ordem de serviço não cadastrada!");
+            }
+        } catch (java.sql.SQLSyntaxErrorException e) {
+            JOptionPane.showMessageDialog(null, "Ordem de serviço inválida!");
+            //System.out.println(e);
+        } catch (Exception e2) {
+            JOptionPane.showMessageDialog(null, e2);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -162,6 +205,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
         txtOS.setEditable(false);
 
         txtData.setEditable(false);
+        txtData.setFont(new java.awt.Font("Segoe UI Black", 1, 12)); // NOI18N
 
         buttonGroup1.add(rbtOrcamento);
         rbtOrcamento.setText("Orçamento");
@@ -187,21 +231,22 @@ public class TelaOs extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel1)
+                        .addGap(75, 75, 75)
+                        .addComponent(jLabel2)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(75, 75, 75))
+                                .addComponent(rbtOrcamento)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 15, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtOS)
-                                .addGap(30, 30, 30)))
+                                .addGap(12, 12, 12)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(rbtOrcamento)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(rbtOS)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                            .addComponent(rbtOS)
+                            .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -437,7 +482,8 @@ public class TelaOs extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPesquisarOsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarOsActionPerformed
-        // TODO add your handling code here:
+        // chamando o método pesquisar Os 
+        pesquisarOs();
     }//GEN-LAST:event_btnPesquisarOsActionPerformed
 
     private void txtPesquisarClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarClienteKeyReleased
