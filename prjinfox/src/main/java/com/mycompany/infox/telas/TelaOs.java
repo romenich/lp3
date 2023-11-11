@@ -131,6 +131,44 @@ public class TelaOs extends javax.swing.JInternalFrame {
         }
     }
 
+    //método para alterar uma ordem de serviço
+    private void alterarOs(){
+        String sql = "update tabos set tipo=?, situacao=?, equipamento=?, defeito=?, servico=?, tecnico=?, valor=? where os=?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, tipo);
+            pst.setString(2, cboOsSituacao.getSelectedItem().toString());
+            pst.setString(3, txtEquipamentoOS.getText());
+            pst.setString(4, txtDefeitoOS.getText());
+            pst.setString(5, txtServicoOs.getText());
+            pst.setString(6, txtTecnicoOs.getText());
+            //.replace substitui a "," pelo "."
+            pst.setString(7, txtValorOs.getText().replace(",", "."));
+            pst.setString(8, txtOS.getText());
+
+            //validação dos campos obrigatórios
+            if ((txtIdCliente.getText().isEmpty()) || (txtEquipamentoOS.getText().isEmpty()) || (txtDefeitoOS.getText().isEmpty())) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios!");
+
+            } else {
+                int adicionado = pst.executeUpdate();
+                if (adicionado > 0) {
+                    JOptionPane.showMessageDialog(null, "Ordem de serviço alterada com sucesso!");
+                    limparDados();
+                    txtData.setText(null);
+                    txtOS.setText(null);
+                    //habilitar os objetos
+                    btnAdicionarOs.setEnabled(true);
+                    txtPesquisarCliente.setEnabled(true);
+                    tblClientes.setVisible(true);
+                }
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -375,6 +413,11 @@ public class TelaOs extends javax.swing.JInternalFrame {
         btnAlterarOs.setToolTipText("Alterar OS");
         btnAlterarOs.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAlterarOs.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAlterarOs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarOsActionPerformed(evt);
+            }
+        });
 
         btnExcluirOs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/deleteComputerIcon.png"))); // NOI18N
         btnExcluirOs.setToolTipText("Deletar OS");
@@ -513,9 +556,14 @@ public class TelaOs extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void btnAdicionarOsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarOsActionPerformed
-        // chamar o método para emitir ordem de serviços
+        // chamar o método para emitir ordem de serviço
         emitirOs();
     }//GEN-LAST:event_btnAdicionarOsActionPerformed
+
+    private void btnAlterarOsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarOsActionPerformed
+        // chamar o método para alterar ordem de serviço
+        alterarOs();
+    }//GEN-LAST:event_btnAlterarOsActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
