@@ -21,6 +21,9 @@
     <SyntheticProperty name="generatePosition" type="boolean" value="true"/>
     <SyntheticProperty name="generateSize" type="boolean" value="true"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="internalFrameOpened" listener="javax.swing.event.InternalFrameListener" parameters="javax.swing.event.InternalFrameEvent" handler="formInternalFrameOpened"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -64,7 +67,7 @@
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="txtTecnicoOs" alignment="0" min="-2" pref="320" max="-2" attributes="0"/>
                                   <Component id="txtServicoOs" alignment="0" min="-2" pref="320" max="-2" attributes="0"/>
-                                  <Component id="tstDefeitoOS" alignment="0" min="-2" pref="320" max="-2" attributes="0"/>
+                                  <Component id="txtDefeitoOS" alignment="0" min="-2" pref="320" max="-2" attributes="0"/>
                                   <Component id="txtEquipamentoOS" alignment="0" min="-2" pref="320" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
@@ -120,7 +123,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                  <Component id="tstDefeitoOS" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtDefeitoOS" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -242,6 +245,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Or&#xe7;amento"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbtOrcamentoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JRadioButton" name="rbtOS">
           <Properties>
@@ -250,6 +256,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Ordem de servi&#xe7;o"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbtOSActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -262,12 +271,12 @@
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="7">
-            <StringItem index="0" value="Entrega OK"/>
-            <StringItem index="1" value="Or&#xe7;amento REPROVADO"/>
-            <StringItem index="2" value="Aguardando Aprova&#xe7;&#xe3;o"/>
-            <StringItem index="3" value="Aguardando pe&#xe7;as"/>
-            <StringItem index="4" value="Abandonado pelo cliente"/>
-            <StringItem index="5" value="Na bancada"/>
+            <StringItem index="0" value="Na bancada"/>
+            <StringItem index="1" value="Entrega OK"/>
+            <StringItem index="2" value="Or&#xe7;amento REPROVADO"/>
+            <StringItem index="3" value="Aguardando Aprova&#xe7;&#xe3;o"/>
+            <StringItem index="4" value="Aguardando pe&#xe7;as"/>
+            <StringItem index="5" value="Abandonado pelo cliente"/>
             <StringItem index="6" value="Retornou"/>
           </StringArray>
         </Property>
@@ -407,13 +416,16 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtEquipamentoOS">
     </Component>
-    <Component class="javax.swing.JTextField" name="tstDefeitoOS">
+    <Component class="javax.swing.JTextField" name="txtDefeitoOS">
     </Component>
     <Component class="javax.swing.JTextField" name="txtServicoOs">
     </Component>
     <Component class="javax.swing.JTextField" name="txtTecnicoOs">
     </Component>
     <Component class="javax.swing.JTextField" name="txtValorOs">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="0"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnAdicionarOs">
       <Properties>
@@ -426,6 +438,9 @@
         </Property>
         <Property name="horizontalTextPosition" type="int" value="0"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdicionarOsActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnPesquisarOs">
       <Properties>

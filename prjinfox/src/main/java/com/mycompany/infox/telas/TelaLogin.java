@@ -47,7 +47,7 @@ public class TelaLogin extends javax.swing.JFrame {
                     TelaPrincipal.lblUsuario.setForeground(Color.red);
                     this.dispose();
 
-                }else {
+                } else {
                     TelaPrincipal principal = new TelaPrincipal();
                     principal.setVisible(true);
                     TelaPrincipal.lblUsuario.setText(rs.getString(2));
@@ -67,6 +67,7 @@ public class TelaLogin extends javax.swing.JFrame {
      */
     public TelaLogin() {
         initComponents();
+        getRootPane().setDefaultButton(btnLogin);
         conexao = ModuloConexao.conector();
         // a linha abaixo serve de apoio ao status da conexao
         System.out.println(conexao);

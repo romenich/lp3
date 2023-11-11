@@ -18,6 +18,8 @@ public class TelaOs extends javax.swing.JInternalFrame {
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
+    // a linha abaixo cria uma variábvel para armazenar um texto de acordo com o radio button selecionato
+    private String tipo;
 
     /**
      * Creates new form TelaOs
@@ -25,6 +27,15 @@ public class TelaOs extends javax.swing.JInternalFrame {
     public TelaOs() {
         initComponents();
         conexao = ModuloConexao.conector();
+    }
+
+    private void limparDados() {
+        txtIdCliente.setText(null);
+        txtEquipamentoOS.setText(null);
+        txtDefeitoOS.setText(null);
+        txtServicoOs.setText(null);
+        txtTecnicoOs.setText(null);
+        txtValorOs.setText(null);
     }
 
     private void pesquisarCliente() {
@@ -39,10 +50,42 @@ public class TelaOs extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    
-    private void setarCampos(){
+
+    private void setarCampos() {
         int setar = tblClientes.getSelectedRow();
         txtIdCliente.setText(tblClientes.getModel().getValueAt(setar, 0).toString());
+    }
+
+    // método para emitir uma ordem de serviço
+    private void emitirOs() {
+        String sql = "insert into tabos (tipo, situacao, equipamento, defeito, servico, tecnico, valor, idcliente) values(?, ?, ?, ? ,? ,? ,?, ? )";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, tipo);
+            pst.setString(2, cboOsSituacao.getSelectedItem().toString());
+            pst.setString(3, txtEquipamentoOS.getText());
+            pst.setString(4, txtDefeitoOS.getText());
+            pst.setString(5, txtServicoOs.getText());
+            pst.setString(6, txtTecnicoOs.getText());
+            //.replace substitui a "," pelo "."
+            pst.setString(7, txtValorOs.getText().replace(",", "."));
+            pst.setString(8, txtIdCliente.getText());
+
+            //validação dos campos obrigatórios
+            if ((txtIdCliente.getText().isEmpty()) || (txtEquipamentoOS.getText().isEmpty()) || (txtDefeitoOS.getText().isEmpty())) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios!");
+
+            } else {
+                int adicionado = pst.executeUpdate();
+                if (adicionado > 0) {
+                    JOptionPane.showMessageDialog(null, "Ordem de serviço emitida com sucesso!");
+                    limparDados();
+                }
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 
     /**
@@ -77,7 +120,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         txtEquipamentoOS = new javax.swing.JTextField();
-        tstDefeitoOS = new javax.swing.JTextField();
+        txtDefeitoOS = new javax.swing.JTextField();
         txtServicoOs = new javax.swing.JTextField();
         txtTecnicoOs = new javax.swing.JTextField();
         txtValorOs = new javax.swing.JTextField();
@@ -92,6 +135,23 @@ public class TelaOs extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setTitle("OS");
         setPreferredSize(new java.awt.Dimension(800, 486));
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -105,9 +165,19 @@ public class TelaOs extends javax.swing.JInternalFrame {
 
         buttonGroup1.add(rbtOrcamento);
         rbtOrcamento.setText("Orçamento");
+        rbtOrcamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtOrcamentoActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(rbtOS);
         rbtOS.setText("Ordem de serviço");
+        rbtOS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtOSActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -153,7 +223,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Situação:");
 
-        cboOsSituacao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Entrega OK", "Orçamento REPROVADO", "Aguardando Aprovação", "Aguardando peças", "Abandonado pelo cliente", "Na bancada", "Retornou" }));
+        cboOsSituacao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Na bancada", "Entrega OK", "Orçamento REPROVADO", "Aguardando Aprovação", "Aguardando peças", "Abandonado pelo cliente", "Retornou" }));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Cliente"));
 
@@ -234,10 +304,17 @@ public class TelaOs extends javax.swing.JInternalFrame {
 
         jLabel10.setText("Valor Total:");
 
+        txtValorOs.setText("0");
+
         btnAdicionarOs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/addComputerIcon.png"))); // NOI18N
         btnAdicionarOs.setToolTipText("Adicionar OS");
         btnAdicionarOs.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAdicionarOs.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAdicionarOs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarOsActionPerformed(evt);
+            }
+        });
 
         btnPesquisarOs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/searchComputerIcon.png"))); // NOI18N
         btnPesquisarOs.setToolTipText("Pesquisar OS");
@@ -292,7 +369,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtTecnicoOs, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtServicoOs, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tstDefeitoOS, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtDefeitoOS, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtEquipamentoOS, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(30, 30, 30)))
                         .addComponent(jLabel10)
@@ -334,7 +411,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
-                    .addComponent(tstDefeitoOS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDefeitoOS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
@@ -373,6 +450,27 @@ public class TelaOs extends javax.swing.JInternalFrame {
         setarCampos();
     }//GEN-LAST:event_tblClientesMouseClicked
 
+    private void rbtOrcamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtOrcamentoActionPerformed
+        // atribuindo um texto a variável tipo se o radio button estiver selecionado
+        tipo = "Orçamento";
+    }//GEN-LAST:event_rbtOrcamentoActionPerformed
+
+    private void rbtOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtOSActionPerformed
+        // atribuindo um texto a variável tipo se o radio button selecionado
+        tipo = "OS";
+    }//GEN-LAST:event_rbtOSActionPerformed
+
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        // Ao abrir o form marcar o radio button orçamento
+        rbtOrcamento.setSelected(true);
+        tipo = "Orçamento";
+    }//GEN-LAST:event_formInternalFrameOpened
+
+    private void btnAdicionarOsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarOsActionPerformed
+        // chamar o método para emitir ordem de serviços
+        emitirOs();
+    }//GEN-LAST:event_btnAdicionarOsActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionarOs;
@@ -398,8 +496,8 @@ public class TelaOs extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton rbtOS;
     private javax.swing.JRadioButton rbtOrcamento;
     private javax.swing.JTable tblClientes;
-    private javax.swing.JTextField tstDefeitoOS;
     private javax.swing.JTextField txtData;
+    private javax.swing.JTextField txtDefeitoOS;
     private javax.swing.JTextField txtEquipamentoOS;
     private javax.swing.JTextField txtIdCliente;
     private javax.swing.JTextField txtOS;
