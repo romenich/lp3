@@ -3,6 +3,7 @@ com\mycompany\infox\telas\TelaCliente.class
 com\mycompany\infox\telas\TelaPrincipal$4.class
 main\MainClass$1.class
 main\MainClass.class
+com\mycompany\infox\telas\TelaOs$2.class
 com\mycompany\infox\telas\TelaPrincipal.class
 com\mycompany\infox\telas\TelaUsuario$2.class
 com\mycompany\infox\dal\ModuloConexao.class
@@ -14,6 +15,7 @@ com\mycompany\infox\telas\TelaPrincipal$2.class
 com\mycompany\infox\telas\TelaUsuario.class
 com\mycompany\infox\telas\TelaCliente$4.class
 com\mycompany\infox\telas\TelaCliente$1.class
+com\mycompany\infox\telas\TelaOs$3.class
 com\mycompany\infox\telas\TelaOs.class
 com\mycompany\infox\telas\TelaPrincipal$5.class
 com\mycompany\infox\telas\TelaLogin.class
