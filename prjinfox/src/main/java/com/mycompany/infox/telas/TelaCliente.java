@@ -234,6 +234,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         txtIdCliente.setEditable(false);
 
         btnAdicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/createIcone.png"))); // NOI18N
+        btnAdicionar.setToolTipText("");
         btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAdicionarActionPerformed(evt);
