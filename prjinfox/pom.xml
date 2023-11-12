@@ -23,7 +23,7 @@
         <maven.compiler.release>20</maven.compiler.release>
     </properties>
     <build> 
-    <plugins>
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
