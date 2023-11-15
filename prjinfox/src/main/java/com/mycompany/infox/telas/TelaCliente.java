@@ -13,7 +13,7 @@ import net.proteanit.sql.DbUtils;
 
 /**
  *
- * @author reydemonio
+ * @author Romenik
  */
 public class TelaCliente extends javax.swing.JInternalFrame {
 

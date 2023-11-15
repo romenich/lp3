@@ -15,7 +15,7 @@ import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
- * @author FAETEC-PÁDUA
+ * @author Romenik
  */
 public class TelaPrincipal extends javax.swing.JFrame {
 

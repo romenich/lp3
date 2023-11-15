@@ -4,7 +4,7 @@ import java.sql.*;
 
 /**
  *
- * @author FAETEC-PÁDUA
+ * @author Romenik
  */
 public class ModuloConexao {
 

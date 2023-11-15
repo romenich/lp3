@@ -16,7 +16,7 @@ import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
- * @author reydemonio
+ * @author Romenik
  */
 public class TelaOs extends javax.swing.JInternalFrame {
 

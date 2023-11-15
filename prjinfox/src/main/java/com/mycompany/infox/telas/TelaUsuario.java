@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author reydemonio
+ * @author Romenik
  */
 public class TelaUsuario extends javax.swing.JInternalFrame {
 

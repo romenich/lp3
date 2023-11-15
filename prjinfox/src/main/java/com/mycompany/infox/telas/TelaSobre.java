@@ -6,7 +6,7 @@ package com.mycompany.infox.telas;
 
 /**
  *
- * @author FAETEC-PÁDUA
+ * @author Romenik
  */
 public class TelaSobre extends javax.swing.JFrame {
 
@@ -68,9 +68,9 @@ public class TelaSobre extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(jLabel2)
                 .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 

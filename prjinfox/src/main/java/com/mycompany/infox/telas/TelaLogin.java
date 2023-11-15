@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author FAETEC-PÁDUA
+ * @author Romenik
  */
 public class TelaLogin extends javax.swing.JFrame {
 
