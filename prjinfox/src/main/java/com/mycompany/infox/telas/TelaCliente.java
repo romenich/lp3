@@ -1,6 +1,18 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
+ * Copyright (C) 2023 Romenik
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycompany.infox.telas;
 
@@ -8,10 +20,10 @@ import java.sql.*;
 import com.mycompany.infox.dal.ModuloConexao;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-// a linha abaixo importa recursos da blibloteca rs2xml.jar
 import net.proteanit.sql.DbUtils;
 
 /**
+ * Jframe interno para a criação da tela de clientes
  *
  * @author Romenik
  */
@@ -28,8 +40,10 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         initComponents();
         conexao = ModuloConexao.conector();
     }
-    // método para limpar dados
 
+    /**
+     * Método para limpar os dados dos campos
+     */
     private void limparDados() {
         txtNomeCliente.setText(null);
         txtFoneCliente.setText(null);
@@ -40,7 +54,9 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         ((DefaultTableModel) tblClientes.getModel()).setRowCount(0);
     }
 
-    //método para adicionar clientes
+    /**
+     * Método para adicionar clientes
+     */
     private void adicionar() {
         String sql = "insert into tabclientes (nomecliente, enderecocliente, telefonecliente, emailcliente ) values (?, ?, ?, ?)";
         try {
@@ -49,17 +65,11 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             pst.setString(2, txtEnderecoCliente.getText());
             pst.setString(3, txtFoneCliente.getText());
             pst.setString(4, txtMailCliente.getText());
-            //validação dos campos obrigatórios
             if ((txtNomeCliente.getText().isEmpty()) || (txtFoneCliente.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios!");
 
             } else {
-
-                // a estrutura abaixo é usado para confirmar a inserção dos dados na tabela
-                // e atualizar a tabela de usuários com os dados dos formulários
                 int adicionado = pst.executeUpdate();
-                // a linha abaixo serve de apoio ao entendimento da lógica
-                //System.out.println(adicionado);
                 if (adicionado > 0) {
                     JOptionPane.showMessageDialog(null, "Cliente adicionado com sucesso.");
                     limparDados();
@@ -72,16 +82,15 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         }
     }
 
-    //criando o método para pesquisar clientes pelo nome com filtro
+    /**
+     * Método para pesquisar clientes com o nome como filtro
+     */
     private void pesquisarCliente() {
         String sql = "select idcliente as Id, nomecliente as Nome, enderecocliente as Endereço, telefonecliente as Telefone, emailcliente as Email from tabclientes where nomecliente like ?";
         try {
             pst = conexao.prepareStatement(sql);
-            // passando o nome da caixa de pesquisa para o "?"
-            // atenção ao "%" - continuação da string sql
             pst.setString(1, txtPesquisarCliente.getText() + "%");
             rs = pst.executeQuery();
-            // a linha abaixo usa a biblioteca rs2xml.jar para preencher a tabela
             tblClientes.setModel(DbUtils.resultSetToTableModel(rs));
 
         } catch (Exception e) {
@@ -89,7 +98,9 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         }
     }
 
-    //método para setar os campos dos formulários com os conteúdos da tabela
+    /**
+     * Método para setar os campos dos formulários com os conteúdos da tabela
+     */
     public void setarCampos() {
         int setar = tblClientes.getSelectedRow();
         txtIdCliente.setText(tblClientes.getModel().getValueAt(setar, 0).toString());
@@ -98,11 +109,12 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         txtFoneCliente.setText(tblClientes.getModel().getValueAt(setar, 3).toString());
         txtMailCliente.setText(tblClientes.getModel().getValueAt(setar, 4).toString());
 
-        // a linha abaixo desabilita o botão adicionar
         btnAdicionar.setEnabled(false);
     }
 
-    //criado o método para alterar dados do usuário
+    /**
+     * Método para alterar dados do usuário
+     */
     private void alterar() {
         String sql = "update tabclientes set nomecliente=?, enderecocliente=?, telefonecliente=?, emailcliente=? where  idcliente=?";
         try {
@@ -112,17 +124,11 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             pst.setString(3, txtFoneCliente.getText());
             pst.setString(4, txtMailCliente.getText());
             pst.setString(5, txtIdCliente.getText());
-            //validação dos campos obrigatórios
             if ((txtNomeCliente.getText().isEmpty()) || (txtFoneCliente.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios!");
 
             } else {
-
-                // a estrutura abaixo é usado para confirmar a alteração dos dados na tabela
-                // e atualizar a tabela de usuários com os dados dos formulários
                 int adicionado = pst.executeUpdate();
-                // a linha abaixo serve de apoio ao entendimento da lógica
-                //System.out.println(adicionado);
                 if (adicionado > 0) {
                     JOptionPane.showMessageDialog(null, "Dados do cliente alterados com sucesso.");
                     limparDados();
@@ -136,9 +142,10 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         }
     }
 
-    //criando o método para remover clientes
+    /**
+     * Método para remover clientes
+     */
     private void remover() {
-        //a estrutura abaixo confirma a remoção do cliente
         int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este cliente?", "Atenção", JOptionPane.YES_NO_OPTION);
         if (confirma == JOptionPane.YES_OPTION) {
             String sql = "delete from tabclientes where idcliente=?";
@@ -362,27 +369,22 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        // chamando o método para adicionar clientes
         adicionar();
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void txtPesquisarClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarClienteKeyReleased
-        // O evento abaixo é do tipo "Enquanto for digitando..."
         pesquisarCliente();
     }//GEN-LAST:event_txtPesquisarClienteKeyReleased
 
     private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
-        // evento que será usado para setar os campos da tabela chamando o método setar campos
         setarCampos();
     }//GEN-LAST:event_tblClientesMouseClicked
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
-        // chamando o método para alterar dados de clientes
         alterar();
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
-        // chamando o método para remover clientes
         remover();
     }//GEN-LAST:event_btnRemoverActionPerformed
 

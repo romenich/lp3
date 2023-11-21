@@ -1,6 +1,18 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Copyright (C) 2023 Romenik
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycompany.infox.telas;
 
@@ -10,6 +22,7 @@ import java.awt.Color;
 import javax.swing.JOptionPane;
 
 /**
+ * Jframe para a tela de login
  *
  * @author Romenik
  */
@@ -19,25 +32,19 @@ public class TelaLogin extends javax.swing.JFrame {
     PreparedStatement pst = null;
     ResultSet rs = null;
 
+    /**
+     * Método para realizar o login dos usuários
+     */
     public void logar() {
         String sql = "SELECT * from tabusuarios where login=? and senha=?";
         try {
-            /*as linhas abaixo preparam a consulta ao banco em função do que
-            foi digitado nas caixas de texto. O ? é substituído pelo
-            conteúdo das variáveis
-             */
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtUsuario.getText());
             String captura = new String(txtSenha.getPassword());
             pst.setString(2, captura);
-            // a linha abaixo executa a query
             rs = pst.executeQuery();
-            //se existir usuário e senha correspondente
             if (rs.next()) {
-                // a linha abaixo obtém o conteúdo do campo perfil da tabela tabusuarios
                 String perfil = rs.getString(6);
-                //System.out.println(perfil);
-                // a estrutura abaixo faz o tratamento do perfil do usuário
                 if (perfil.equals("admin")) {
                     TelaPrincipal principal = new TelaPrincipal();
                     principal.setVisible(true);
@@ -69,8 +76,6 @@ public class TelaLogin extends javax.swing.JFrame {
         initComponents();
         getRootPane().setDefaultButton(btnLogin);
         conexao = ModuloConexao.conector();
-        // a linha abaixo serve de apoio ao status da conexao
-        System.out.println(conexao);
         if (conexao != null) {
             lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/dbok.png")));
         } else {

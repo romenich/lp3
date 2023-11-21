@@ -4,7 +4,7 @@ import com.mycompany.infox.telas.TelaLogin;
 
 
 /**
- *
+ * Classe principal do projeto
  * @author romenik
  */
 public class MainClass {

@@ -1,6 +1,18 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
+ * Copyright (C) 2023 Romenik
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycompany.infox.telas;
 
@@ -9,6 +21,7 @@ import com.mycompany.infox.dal.ModuloConexao;
 import javax.swing.JOptionPane;
 
 /**
+ * Jframe interno para a criação da tela de usuários
  *
  * @author Romenik
  */
@@ -34,7 +47,9 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
 
     }
 
-    //método para consultar usuários
+    /**
+     * Método para consultar usuários
+     */
     private void consultar() {
         String sql = "select * from tabusuarios where iduser=? ";
         try {
@@ -46,12 +61,10 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
                 txtFoneUsuario.setText(rs.getString(3));
                 txtLoginUsuario.setText(rs.getString(4));
                 txtSenhaUsuario.setText(rs.getString(5));
-                // a linha abaixo se refere ao combobox
                 cboPerfilUsuario.setSelectedItem(rs.getString(6));
 
             } else {
                 JOptionPane.showMessageDialog(null, "Usuário não cadastrado.");
-                // a linha abaixo chama o método para limpar os dados dos campos
                 limparDados();
             }
         } catch (Exception e) {
@@ -59,7 +72,9 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         }
     }
 
-    //método para adicionar usuários
+    /**
+     * Método para adicionar usuários
+     */
     private void adicionar() {
         String sql = "insert into tabusuarios (iduser, usuario, telefone, login, senha, perfil) values (?, ?, ?, ?, ?, ?)";
         try {
@@ -69,20 +84,13 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
             pst.setString(3, txtFoneUsuario.getText());
             pst.setString(4, txtLoginUsuario.getText());
             pst.setString(5, txtSenhaUsuario.getText());
-            // síntese para o combo box
             pst.setString(6, cboPerfilUsuario.getSelectedItem().toString());
 
-            //validação dos campos obrigatórios
             if ((txtIdUsuario.getText().isEmpty()) || (txtNomeUsuario.getText().isEmpty()) || (txtLoginUsuario.getText().isEmpty()) || (txtSenhaUsuario.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios!");
 
             } else {
-
-                // a estrutura abaixo é usado para confirmar a inserção dos dados na tabela
-                // e atualizar a tabela de usuários com os dados dos formulários
                 int adicionado = pst.executeUpdate();
-                // a linha abaixo serve de apoio ao entendimento da lógica
-                //System.out.println(adicionado);
                 if (adicionado > 0) {
                     JOptionPane.showMessageDialog(null, "Usuário adicionado com sucesso.");
                     limparDados();
@@ -95,7 +103,9 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         }
     }
 
-    //criado o método para alterar dados do usuário
+    /**
+     * Método para alterar dados do usuário
+     */
     private void alterar() {
         String sql = "update tabusuarios set usuario=?, telefone=?, login=?, senha=?, perfil=? where iduser=?";
         try {
@@ -104,20 +114,13 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
             pst.setString(2, txtFoneUsuario.getText());
             pst.setString(3, txtLoginUsuario.getText());
             pst.setString(4, txtSenhaUsuario.getText());
-            // síntese para o combo box
             pst.setString(5, cboPerfilUsuario.getSelectedItem().toString());
             pst.setString(6, txtIdUsuario.getText());
-            //validação dos campos obrigatórios
             if ((txtIdUsuario.getText().isEmpty()) || (txtNomeUsuario.getText().isEmpty()) || (txtLoginUsuario.getText().isEmpty()) || (txtSenhaUsuario.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios!");
 
             } else {
-
-                // a estrutura abaixo é usado para confirmar a alteração dos dados na tabela
-                // e atualizar a tabela de usuários com os dados dos formulários
                 int adicionado = pst.executeUpdate();
-                // a linha abaixo serve de apoio ao entendimento da lógica
-                //System.out.println(adicionado);
                 if (adicionado > 0) {
                     JOptionPane.showMessageDialog(null, "Dados do usuário alterado com sucesso.");
                     limparDados();
@@ -129,25 +132,27 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    //método responsável pela remoção de usuários
-    private void remover(){
-       //a estrutura abaixo confirma a remoção do usuário
-       int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este usuário?", "Atenção", JOptionPane.YES_NO_OPTION);
-       if (confirma==JOptionPane.YES_OPTION){
-           String sql= "delete from tabusuarios where iduser=?";
-           try {
-               pst=conexao.prepareStatement(sql);
-               pst.setString(1,txtIdUsuario.getText());
-               int apagado=pst.executeUpdate();
-               if (apagado>0){
-                   JOptionPane.showMessageDialog(null,"Usuário removido com sucesso!");
-                   limparDados();
-                   txtIdUsuario.setText(null);
-               }
-           } catch (Exception e) {
-               JOptionPane.showMessageDialog(null, e);
-           }
-       }
+
+    /**
+     * Método responsável pela remoção de usuários
+     */
+    private void remover() {
+        int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este usuário?", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION) {
+            String sql = "delete from tabusuarios where iduser=?";
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtIdUsuario.getText());
+                int apagado = pst.executeUpdate();
+                if (apagado > 0) {
+                    JOptionPane.showMessageDialog(null, "Usuário removido com sucesso!");
+                    limparDados();
+                    txtIdUsuario.setText(null);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
     }
 
     /**
@@ -334,22 +339,18 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnReadUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReadUserActionPerformed
-        // chamando o método consultar
         consultar();
     }//GEN-LAST:event_btnReadUserActionPerformed
 
     private void bntCreateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntCreateUserActionPerformed
-        // chamando o método adicionar
         adicionar();
     }//GEN-LAST:event_bntCreateUserActionPerformed
 
     private void btnUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateUserActionPerformed
-        // chamando o método alterar
         alterar();
     }//GEN-LAST:event_btnUpdateUserActionPerformed
 
     private void btnDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUserActionPerformed
-        // chamando o método remover
         remover();
     }//GEN-LAST:event_btnDeleteUserActionPerformed
 

@@ -1,6 +1,18 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Copyright (C) 2023 Romenik
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycompany.infox.telas;
 
@@ -14,6 +26,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 
 /**
+ * Jframe para a criação da tela principal
  *
  * @author Romenik
  */
@@ -206,7 +219,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        // as linhas abaixo substitutem a label lblData pela data atual do sistema ao inicializar o frame
         Date data = new Date();
         DateFormat formatador = DateFormat.getDateInstance(DateFormat.SHORT);
         lblData.setText(formatador.format(data));
@@ -214,7 +226,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void menOpcoesSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menOpcoesSairActionPerformed
-        // exibe uma caixa de diálogo
         int sair = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja sair?", "Atenção", JOptionPane.YES_NO_OPTION);
         if (sair == JOptionPane.YES_OPTION) {
             System.exit(0);
@@ -222,13 +233,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menOpcoesSairActionPerformed
 
     private void menAjudaSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menAjudaSobreActionPerformed
-        // chamando a tela sobre
         TelaSobre sobre = new TelaSobre();
         sobre.setVisible(true);
     }//GEN-LAST:event_menAjudaSobreActionPerformed
 
     private void menCadastroUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCadastroUserActionPerformed
-        // As linhas abaixo iram abrir o form TelaUsuario dentro do desktop pane
         TelaUsuario usuario = new TelaUsuario();
         usuario.setVisible(true);
         desktopTela.add(usuario);
@@ -236,28 +245,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menCadastroUserActionPerformed
 
     private void menCadastroClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCadastroClienteActionPerformed
-        // chamando a tela de cliente
         TelaCliente cliente = new TelaCliente();
         cliente.setVisible(true);
         desktopTela.add(cliente);
     }//GEN-LAST:event_menCadastroClienteActionPerformed
 
     private void menCadastroOsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCadastroOsActionPerformed
-        // chamando a tela Os
         TelaOs os = new TelaOs();
         os.setVisible(true);
         desktopTela.add(os);
     }//GEN-LAST:event_menCadastroOsActionPerformed
 
     private void menRelatorioClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menRelatorioClientesActionPerformed
-        // gerando um relatório de clientes
         int confirma = JOptionPane.showConfirmDialog(null, "Confirma a emissão desse relatório?", "Atenção", JOptionPane.YES_NO_OPTION);
         if (confirma == JOptionPane.YES_OPTION) {
-            // emitindo o relatório com o framework JasperReports
             try {
-                //usando a classe JasperPrint para preparar a emissão de um relatório
                 JasperPrint print = JasperFillManager.fillReport("C:/reports/clientes.jasper", null, conexao);
-                // a linha abaixo exibe o relatório através da classe JasperViewer
                 JasperViewer.viewReport(print, false);
 
             } catch (Exception e) {
@@ -268,14 +271,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menRelatorioClientesActionPerformed
 
     private void menRelatorioServicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menRelatorioServicosActionPerformed
-        // gerando um relatório de serviços
         int confirma = JOptionPane.showConfirmDialog(null, "Confirma a emissão desse relatório?", "Atenção", JOptionPane.YES_NO_OPTION);
         if (confirma == JOptionPane.YES_OPTION) {
-            // emitindo um relatório com o framework JasperReports
             try {
-                //usando a classe JasperPrint para preparar a impressão de um relatório
                 JasperPrint print = JasperFillManager.fillReport("C:/reports/servicos.jasper", null, conexao);
-                // a linha abaixo exibe o relatório através da classe JasperViewer
                 JasperViewer.viewReport(print, false);
 
             } catch (Exception e) {
