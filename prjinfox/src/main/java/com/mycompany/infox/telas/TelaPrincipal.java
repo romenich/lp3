@@ -260,7 +260,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         int confirma = JOptionPane.showConfirmDialog(null, "Confirma a emissão desse relatório?", "Atenção", JOptionPane.YES_NO_OPTION);
         if (confirma == JOptionPane.YES_OPTION) {
             try {
-                JasperPrint print = JasperFillManager.fillReport("C:/reports/clientes.jasper", null, conexao);
+                 JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("/reports/clientes.jasper"), null, conexao);
                 JasperViewer.viewReport(print, false);
 
             } catch (Exception e) {
@@ -271,10 +271,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menRelatorioClientesActionPerformed
 
     private void menRelatorioServicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menRelatorioServicosActionPerformed
+
         int confirma = JOptionPane.showConfirmDialog(null, "Confirma a emissão desse relatório?", "Atenção", JOptionPane.YES_NO_OPTION);
         if (confirma == JOptionPane.YES_OPTION) {
             try {
-                JasperPrint print = JasperFillManager.fillReport("C:/reports/servicos.jasper", null, conexao);
+                JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("/reports/servicos.jasper"), null, conexao);
                 JasperViewer.viewReport(print, false);
 
             } catch (Exception e) {
